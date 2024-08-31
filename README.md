@@ -31,15 +31,20 @@ e.g, search "Tcc Offset Lock Enable", this will position to the line where you s
 Below are options that you would like to change, each option that need to tweak one more UEFI variables (i.e, the actual register address represented in VarOffset)
 
 - Temperature Limit
+  if you intend to remove Temperature Limit, you should set the all these variable to value = 0 
   ```
   "Tcc Offset Lock Enable", VarOffset: 0x1CD, Default value: 1 (Enable)
   "Bi-directional PROCHOT#", VarOffset: 0x7A, Default value: 1 (Enable)
   "Disable PROCHOT# Output", VarOffset: 0x7B, Default value: 1 (Enable)
   ```
   
-- AC Load line
+- AC Load line (ACLL)
+  ACLL is a virtual resistance represented in mOhms unit with hex value, the actual requested VID = naked VID + current x ACLL
+  let's say ACLL = 64 (hex value, its decimal value is 100 mOhms, defined in 100 x 1/100 mOhms = 1 mOhm), naked VID is 1100mV indexed from CPU internal table, and current = 100A
+  so the actual requested VID = 1100mV + 100 A x 1 mOhm = 1200 mV
   ```
   "AC Loadline", VarOffset: 0x132, Default value: 0
+  Help: "AC Loadline defined in 1/100 mOhms. A value of 100 = 1.00 mOhm, and 1255 = 12.55 mOhm. Range is 0-6249 (0-62.49 mOhms)
   ```
   
 # Unlock by RU tool
